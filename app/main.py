@@ -106,3 +106,11 @@ def attendance_percentage(student_id: int):
         "present": sum(r["status"] == "present" for r in records),
         "attendance_percentage": percentage,
     }
+
+
+@app.get("/students/roll/{roll_number}")
+def find_student_by_roll_number(roll_number: str):
+    for student in students.values():
+        if student["roll_number"] == roll_number:
+            return student
+    raise HTTPException(status_code=404, detail="Student not found")
