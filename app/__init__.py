@@ -1,0 +1,1 @@
+"""CampusTrack application package."""
