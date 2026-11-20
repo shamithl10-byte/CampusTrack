@@ -1,0 +1,10 @@
+- name: Verify CampusTrack configuration
+  ansible.builtin.stat:
+    path: "{{ campustrack_config_dir }}/campustrack.env"
+  register: campustrack_config_status
+
+- name: Confirm configuration file exists
+  ansible.builtin.assert:
+    that:
+      - campustrack_config_status.stat.exists
+    fail_msg: "CampusTrack configuration file was not created."

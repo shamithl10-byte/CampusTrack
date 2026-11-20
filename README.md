@@ -37,3 +37,30 @@ installs Python dependencies, runs pytest, publishes JUnit XML results and
 archives selected project files. SCM polling is configured at a two-minute
 interval using `H/2 * * * *`. Jenkins must be configured with this repository
 as its Pipeline-from-SCM source for polling to operate.
+
+## Docker
+```bash
+docker build -t campustrack-api:1.0 .
+docker run --rm -p 8000:8000 campustrack-api:1.0
+```
+
+## Ansible
+Run from the repository root on a Linux environment with Ansible installed:
+```bash
+ansible-playbook -i ansible/inventory.ini ansible/site.yml --ask-become-pass
+```
+The role creates an application configuration directory and renders its
+environment configuration using a Jinja2 template.
+
+## Kubernetes with Minikube
+Build the image in Minikube's image store:
+```bash
+minikube image build -t campustrack-api:1.0 .
+kubectl apply -f kubernetes/deployment.yaml
+kubectl apply -f kubernetes/service.yaml
+kubectl get deployments,pods,services
+kubectl scale deployment campustrack --replicas=5
+kubectl scale deployment campustrack --replicas=3
+```
+The NodePort service uses port 30080. The deployment starts with three
+replicas and defines HTTP readiness and liveness probes on `/health`.

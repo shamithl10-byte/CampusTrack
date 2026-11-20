@@ -1,0 +1,5 @@
+- name: Configure CampusTrack application
+  hosts: campustrack
+  become: true
+  roles:
+    - campustrack

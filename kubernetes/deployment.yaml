@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: campustrack
+  labels:
+    app: campustrack
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: campustrack
+  template:
+    metadata:
+      labels:
+        app: campustrack
+    spec:
+      containers:
+        - name: campustrack-api
+          image: campustrack-api:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20

@@ -1,0 +1,13 @@
+- name: Create CampusTrack configuration directory
+  ansible.builtin.file:
+    path: "{{ campustrack_config_dir }}"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    mode: "0755"
+
+- name: Install CampusTrack environment configuration
+  ansible.builtin.template:
+    src: campustrack.env.j2
+    dest: "{{ campustrack_config_dir }}/campustrack.env"
+    mode: "0644"
+  notify: Verify CampusTrack configuration
