@@ -30,3 +30,10 @@ restarts. This project does not claim persistent database storage.
 
 ## Repository
 https://github.com/shamithl10-byte/CampusTrack
+
+## Continuous integration
+The Jenkinsfile defines a Pipeline job that checks out the configured SCM,
+installs Python dependencies, runs pytest, publishes JUnit XML results and
+archives selected project files. SCM polling is configured at a two-minute
+interval using `H/2 * * * *`. Jenkins must be configured with this repository
+as its Pipeline-from-SCM source for polling to operate.
